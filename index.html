@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>منصة مستر أحمد فايز</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fc;color:#172b4d}
+header{background:#142b4e;color:white;padding:22px 16px;text-align:center}
+header h1{margin:0 0 8px;font-size:26px}
+header p{margin:0;color:#dbeafe}
+main{max-width:850px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#dbeafe,#fff);padding:25px 18px;border-radius:18px;text-align:center;margin-bottom:20px}
+.hero h2{color:#1456bd;margin-top:0}
+.card{background:white;padding:20px;border-radius:16px;margin:16px 0;box-shadow:0 4px 18px #1e3a5f12}
+button,.btn{border:0;border-radius:10px;padding:12px 18px;background:#1765dc;color:white;font-size:16px;cursor:pointer;display:inline-block;text-decoration:none}
+button:hover,.btn:hover{background:#104eae}
+.secondary{background:#e8f0ff;color:#174ea6}
+.question{border-top:1px solid #e5eaf2;padding:15px 0}
+.option{display:block;background:#f5f7fb;border:1px solid #e2e8f0;padding:12px;border-radius:9px;margin:8px 0;cursor:pointer}
+.option:has(input:checked){background:#e2edff;border-color:#1765dc}
+input[type=radio]{margin-left:8px}
+#result{font-weight:bold;margin-top:15px;line-height:1.8}
+footer{text-align:center;padding:24px;background:#142b4e;color:white;margin-top:25px}
+small{color:#64748b}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎓 منصة مستر أحمد فايز</h1>
+  <p>منصتك للامتحانات والمراجعات التعليمية</p>
+</header>
+<main>
+  <section class="hero">
+    <h2>أهلاً بيك في منصتنا التعليمية</h2>
+    <p>تعلّم، حلّ، واختبر مستواك خطوة بخطوة.</p>
+    <button onclick="document.getElementById('exam').scrollIntoView({behavior:'smooth'})">ابدأ الامتحان</button>
+  </section>
+
+  <section class="card">
+    <h2>📚 امتحانات المرحلة الابتدائية</h2>
+    <p>اختر امتحانًا وابدأ التدريب.</p>
+    <button onclick="document.getElementById('exam').scrollIntoView({behavior:'smooth'})">علوم - الصف الرابع الابتدائي</button>
+  </section>
+
+  <section class="card">
+    <h2>📄 مكتبة المراجعات PDF</h2>
+    <p>ستُضاف هنا ملفات الامتحانات والمراجعات القابلة للطباعة.</p>
+    <small>يمكننا إضافة ملفاتك الفعلية في الخطوة التالية.</small>
+  </section>
+
+  <section class="card" id="exam">
+    <h2>📝 امتحان علوم تجريبي</h2>
+    <p>أجب عن الأسئلة التالية ثم اضغط «اعرف نتيجتي».</p>
+    <form id="quiz">
+      <div class="question">
+        <p><b>1. ما المصدر الأساسي للطاقة على سطح الأرض؟</b></p>
+        <label class="option"><input type="radio" name="q1" value="0"> القمر</label>
+        <label class="option"><input type="radio" name="q1" value="1"> الشمس</label>
+        <label class="option"><input type="radio" name="q1" value="0"> الصخور</label>
+      </div>
+      <div class="question">
+        <p><b>2. أيّ مما يلي يُعدّ كائنًا حيًا؟</b></p>
+        <label class="option"><input type="radio" name="q2" value="1"> النبات</label>
+        <label class="option"><input type="radio" name="q2" value="0"> الحجر</label>
+        <label class="option"><input type="radio" name="q2" value="0"> الماء</label>
+      </div>
+      <div class="question">
+        <p><b>3. أيّ عضو نستخدمه في الرؤية؟</b></p>
+        <label class="option"><input type="radio" name="q3" value="0"> الأذن</label>
+        <label class="option"><input type="radio" name="q3" value="0"> الأنف</label>
+        <label class="option"><input type="radio" name="q3" value="1"> العين</label>
+      </div>
+      <button type="button" onclick="gradeQuiz()">اعرف نتيجتي</button>
+      <button type="reset" class="secondary" onclick="document.getElementById('result').textContent=''">إعادة الامتحان</button>
+      <div id="result" aria-live="polite"></div>
+    </form>
+  </section>
+  <section class="card">
+    <h2>👨‍🎓 حساب الطالب</h2>
+    <p>سيُضاف تسجيل الدخول وحفظ الدرجات ومتابعة النتائج في المرحلة التالية.</p>
+  </section>
+</main>
+<footer>
+  <b>مستر أحمد فايز</b>
+  <p>معًا نحو التفوق والنجاح 🌟</p>
+</footer>
+<script>
+function gradeQuiz(){
+  let score=0,answered=0;
+  for(let i=1;i<=3;i++){
+    const answer=document.querySelector('input[name="q'+i+'"]:checked');
+    if(answer){answered++;score+=Number(answer.value);}
+  }
+  const result=document.getElementById('result');
+  if(answered<3){
+    result.textContent='من فضلك أجب عن الأسئلة الثلاثة أولًا.';
+    return;
+  }
+  result.textContent='نتيجتك: '+score+' من 3 ('+
+    Math.round(score/3*100)+'%). '+
+    (score===3?'ممتاز! كل إجاباتك صحيحة 🎉':'حاول مرة أخرى وراجع إجاباتك.');
+}
+</script>
+</body>
+  </html>
+  
